@@ -1,20 +1,23 @@
+import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import BarraLateral from './components/layout/BarraLateral/BarraLateral';
 import Navbar from './components/layout/NavBar/Navbar';
-import './index.css';
 import Home from './pages/Home/Home';
+import CadastrarTarefa from './pages/Cadastros/Tarefas';
+
 function App() {
   return (
     <div className="pagina">
-    <Router className="pagina">
-      <Navbar/>
-      <BarraLateral/>
-        <Routes>
-          <Route exact path="/" element={<Home />} > </Route>
-
-        </Routes>
-    </Router>
-      
+      <Router>
+        <Navbar />
+        <BarraLateral />
+        <div className="conteudo">
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/tarefas" element={<CadastrarTarefa />} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }

@@ -6,8 +6,8 @@
     min-width: 200px;
     max-width: 400px;
     width: auto;
-    background-color: #d8e5ffda;
-    box-shadow: hsla(236, 45%, 62%, 0.5) 0px 5px 16px !important;
+    background-color: #858585;
+    box-shadow: hsla(268, 45%, 62%, 0.5) 0px 5px 16px !important;
     height: auto;
     border-radius: 6px;
     transition: 0.5s;
@@ -18,10 +18,9 @@
 .cardList:hover{
     transition: 0.4s;
     transform: translateY(-10px);
-    box-shadow: hsla(236, 60%, 64%, 0.63) 0px 10px 22px !important;
+    box-shadow: hsla(268, 60%, 64%, 0.63) 0px 10px 22px !important;
 }
 .cardTitulo{
-    margin-top: 10px;
     display: flex;
     flex-direction: row;
     font-size: 24px;
@@ -29,6 +28,27 @@
     width: 100%;
     text-align: center;
     justify-content: center;
+    margin: 10px 0 0 0;
+}
+.cardTitulo h3{
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    position: relative;
+}
+.cardTitulo h3::before{
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    /* background: linear-gradient(to left, #0000ff00 0%, #435edac7 90%); */
+    background-color: #ff5e00;;
+    bottom: -0px;
+    border-radius: 100px;
+    max-width: 340px;
+    top: 25px;
+    
 }
 .cardTitulo p{
     margin: 0;

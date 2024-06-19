@@ -8,12 +8,12 @@ function Navbar() {
           <ul className={styles.lista}> 
                 <div className={styles.logo}>The Planner</div>
                 
-                <li className={styles.itemLista}> 
+{/*                 <li className={styles.itemLista}> 
                     <Link to="/" className={styles.botao}>
                         <IoPersonSharp className={styles.icone}/>
                         <b>Home</b>
                     </Link>
-                </li>
+                </li> */}
             </ul>
         </div>
     )

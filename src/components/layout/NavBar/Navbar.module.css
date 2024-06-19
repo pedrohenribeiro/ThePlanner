@@ -1,15 +1,14 @@
-.navMenu{
-/*     background-color: #2766da; */
-    /* background-color: #417be7; */
+.navMenu {
     background-color: #745ea8;
     min-height: 80px;
-    height: auto;
-    max-height: 160px;
     display: flex;
     align-items: center;
-    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 80px;
 }
-.navMenu ul{
+.navMenu ul {
     margin-left: 0;
     margin-bottom: 0 !important;
 }
@@ -26,20 +25,17 @@
     height: 40px;
     margin-right: 1em;
     padding: 4px;
-    
     background-color: #bcc8ffcc;
     border: 2px;
-
     border-radius: 10px;
     transition: 0.1s;
 }
-.itemLista:hover{
+.itemLista:hover {
     transition: 0.1s;
-    /* background-color: #6598f7; */
     background-color: #9fc0ff;
     border-color: #033faf;
 }
-.botao{
+.botao {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -48,13 +44,13 @@
     font-size: 18px;
     align-items: center;
 }
-.icone{
+.icone {
     margin-right: 4px;
     margin-bottom: 2px;
     width: 20px;
     height: 20px;
 }
-.logo{
+.logo {
     width: 100px;
     margin-right: 20px;
 }

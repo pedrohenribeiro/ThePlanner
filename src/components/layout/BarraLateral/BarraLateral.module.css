@@ -1,10 +1,22 @@
-.BarraLateral{
-    z-index: -1;
+.BarraLateral {
+    z-index: 1;
     background-color: #745ea8;
     height: 100vh;
     width: 80px;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.botoes{
+    display: flex;
+    flex-direction: column;
+    margin-top: 90px;
+    gap: 20px;
+}
+.botao{
+    cursor: pointer;
 }
