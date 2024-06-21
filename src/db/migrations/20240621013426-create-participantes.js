@@ -15,9 +15,9 @@ module.exports = {
       funcao: {
         type: Sequelize.STRING
       },
-/*       idProjeto: {
-        type: Sequelize.STRING
-      }, */
+      projetoId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

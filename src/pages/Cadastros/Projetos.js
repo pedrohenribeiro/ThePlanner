@@ -8,7 +8,7 @@ function Projetos() {
         dataInicial: '',
         dataFinal: '',
         participantes: [
-            { nome: '', funcao: '', id: '' }
+            { nome: '', funcao: '', id: '', projetoId: '' }
         ],
         tarefas: [
             {
@@ -17,7 +17,7 @@ function Projetos() {
                 tempoEstimado: '',
                 dataPrevista: '',
                 responsaveis: [
-                    { participanteId: '' }
+                    { participanteId: '', tarefaId: '' }
                 ]
             }
         ]
@@ -45,11 +45,11 @@ function Projetos() {
         });
     };
 
-    const handleParticipanteChange = (index, e) => {
+    const atualizarParticipantes = (index, e) => {
         const { name, value } = e.target;
         const newParticipantes = dadosProjeto.participantes.map((participante, i) => {
             if (i === index) {
-                return { ...participante, [name]: value };
+                return { ...participante, [name]: value, projetoId: dadosProjeto.id || '1' };
             }
             return participante;
         });
@@ -59,13 +59,54 @@ function Projetos() {
         });
     };
 
-    const addTarefa = () => {
+    const atualizarResponsaveis = (tarefaIndex, responsavelIndex, e) => {
+        const { name, value } = e.target;
+        const novasTarefas = dadosProjeto.tarefas.map((tarefa, i) => {
+            if (i === tarefaIndex) {
+                const novosResponsaveis = tarefa.responsaveis.map((responsavel, j) => {
+                    if (j === responsavelIndex) {
+                        return { ...responsavel, [name]: value, tarefaId: tarefa.id || `${tarefaIndex + 1}` };
+                    }
+                    return responsavel;
+                });
+                return { ...tarefa, responsaveis: novosResponsaveis };
+            }
+            return tarefa;
+        });
+        setDadosProjeto({
+            ...dadosProjeto,
+            tarefas: novasTarefas
+        });
+    };
+
+    const adicionarTarefa = () => {
+        const tarefaId = `${dadosProjeto.tarefas.length + 1}`;
         setDadosProjeto({
             ...dadosProjeto,
             tarefas: [
                 ...dadosProjeto.tarefas,
-                { titulo: '', estado: '', responsaveis: '', tempoEstimado: '', dataPrevista: '' }
+                { id: tarefaId, titulo: '', estado: '', tempoEstimado: '', dataPrevista: '', responsaveis: [{ participanteId: '', tarefaId: tarefaId }] }
             ]
+        });
+    };
+
+    const adicionarResponsavel = (tarefaIndex) => {
+        const tarefaId = dadosProjeto.tarefas[tarefaIndex].id || `${tarefaIndex + 1}`;
+        const novasTarefas = dadosProjeto.tarefas.map((tarefa, i) => {
+            if (i === tarefaIndex) {
+                return {
+                    ...tarefa,
+                    responsaveis: [
+                        ...tarefa.responsaveis,
+                        { participanteId: '', tarefaId: tarefaId }
+                    ]
+                };
+            }
+            return tarefa;
+        });
+        setDadosProjeto({
+            ...dadosProjeto,
+            tarefas: novasTarefas
         });
     };
 
@@ -74,7 +115,7 @@ function Projetos() {
             ...dadosProjeto,
             participantes: [
                 ...dadosProjeto.participantes,
-                { id: '', nome: '' }
+                { id: '', nome: '', funcao: '', projetoId: dadosProjeto.id || '1' }
             ]
         });
     };
@@ -88,7 +129,7 @@ function Projetos() {
             console.error("Erro ao adicionar projeto:", error);
         }
     };
-    
+
     return (
         <div>
             <input
@@ -126,26 +167,26 @@ function Projetos() {
                         type="text"
                         name="id"
                         value={participante.id}
-                        onChange={(e) => handleParticipanteChange(index, e)}
+                        onChange={(e) => atualizarParticipantes(index, e)}
                         placeholder="Id do Participante"
                     />
                     <input
                         type="text"
                         name="nome"
                         value={participante.nome}
-                        onChange={(e) => handleParticipanteChange(index, e)}
+                        onChange={(e) => atualizarParticipantes(index, e)}
                         placeholder="Nome do Participante"
                     />
                     <input
                         type="text"
                         name="funcao"
                         value={participante.funcao}
-                        onChange={(e) => handleParticipanteChange(index, e)}
+                        onChange={(e) => atualizarParticipantes(index, e)}
                         placeholder="Função do Participante"
                     />
                 </div>
             ))}
-            <button onClick={addTarefa}>Adicionar Tarefa</button>
+            <button onClick={adicionarTarefa}>Adicionar Tarefa</button>
             {dadosProjeto.tarefas.map((tarefa, index) => (
                 <div key={index}>
                     <input
@@ -176,21 +217,25 @@ function Projetos() {
                         onChange={(e) => atualizarTarefas(index, e)}
                         placeholder="Data Prevista"
                     />
-                    <select
-                        name="responsaveis"
-                        value={tarefa.responsaveis}
-                        onChange={(e) => atualizarTarefas(index, e)}
-                    >
-                        <option value="">Selecione o Responsável</option>
-                        {dadosProjeto.participantes.map((participante, i) => (
-                            <option key={i} value={participante.nome}>
-                                {participante.nome}
-                            </option>
-                        ))}
-                    </select>
+                    {tarefa.responsaveis.map((responsavel, responsavelIndex) => (
+                        <select
+                            key={responsavelIndex}
+                            name="participanteId"
+                            value={responsavel.participanteId}
+                            onChange={(e) => atualizarResponsaveis(index, responsavelIndex, e)}
+                        >
+                            <option value="">Selecione o Responsável</option>
+                            {dadosProjeto.participantes.map((participante, i) => (
+                                <option key={i} value={participante.id}>
+                                    {participante.nome}
+                                </option>
+                            ))}
+                        </select>
+                    ))}
+                    <button onClick={() => adicionarResponsavel(index)}>Adicionar Responsável</button>
                 </div>
             ))}
-            <button onClick={(e) => { cadastrarProjeto()}}>Enviar</button>
+            <button onClick={(e) => { cadastrarProjeto() }}>Enviar</button>
         </div>
     );
 }

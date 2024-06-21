@@ -25,4 +25,4 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'Tarefas',
   });
   return Tarefas;
-};
+}

@@ -31,6 +31,8 @@ const connection = mysql.createPool({
 
 module.exports = connection;
 
+
+
 app.post('/projetoAdicionar', async (req, res) => {
     const { titulo, descricao, dataInicial, dataFinal, participantes, tarefas } = req.body;
     try {
@@ -46,10 +48,15 @@ app.post('/projetoAdicionar', async (req, res) => {
         };
         await connection.query('INSERT INTO Projetos SET ?', projeto);
 
+        const [rows] = await connection.query('SELECT COUNT(*) AS total FROM Projetos');
+        const projetoId = rows[0].total;
+        console.log("Imprimindo a quantidade de projetos dentro do banco",projetoId)
+
         for (const participante of participantes) {
             const novoParticipante = {
                 nome: participante.nome,
                 funcao: participante.funcao,
+                projetoId: projetoId,
                 createdAt: now,
                 updatedAt: now
             };
@@ -63,7 +70,7 @@ app.post('/projetoAdicionar', async (req, res) => {
                 estado: tarefa.estado,
                 tempoEstimado: tarefa.tempoEstimado,
                 dataPrevista: tarefa.dataPrevista,
-                projetoId: projeto.id,
+                projetoId: projetoId,
                 createdAt: now,
                 updatedAt: now
             };
@@ -71,7 +78,7 @@ app.post('/projetoAdicionar', async (req, res) => {
 
             for (const responsavel of tarefa.responsaveis) {
                 const responsaveis ={
-                    tarefaId: novaTarefa.id,
+                    tarefaId: responsavel.tarefaId,
                     participanteId: responsavel.participanteId,
                     createdAt: now,
                     updatedAt: now
