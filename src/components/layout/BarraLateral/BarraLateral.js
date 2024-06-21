@@ -24,7 +24,7 @@ function BarraLateral(){
                     />
                 </Link>
 
-                <Link to="/" className={styles.botao}>
+                <Link to="/projetos" className={styles.botao}>
                     <IoHome
                         size={35}
                         onClick={() => console.log("Clicado!")} 

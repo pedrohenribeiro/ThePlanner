@@ -4,7 +4,7 @@ import BarraLateral from './components/layout/BarraLateral/BarraLateral';
 import Navbar from './components/layout/NavBar/Navbar';
 import Home from './pages/Home/Home';
 import CadastrarTarefa from './pages/Cadastros/Tarefas';
-
+import Projetos from './pages/Cadastros/Projetos';
 function App() {
   return (
     <div className="pagina">
@@ -15,6 +15,8 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/tarefas" element={<CadastrarTarefa />} />
+            <Route exact path="/projetos" element={<Projetos />} />
+       
           </Routes>
         </div>
       </Router>

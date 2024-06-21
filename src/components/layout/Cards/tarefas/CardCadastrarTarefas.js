@@ -1,6 +1,8 @@
 import styles from './CardCadastrarTarefas.module.css'
 
-function CardCadastrarTarefas(){
+function CardCadastrarTarefas({adicionarTarefa}){
+    const nomeTarefa = "a"
+    const descricao= "de"
     return(
         <div>
             <div className={styles.cardList}>
@@ -13,6 +15,9 @@ function CardCadastrarTarefas(){
                     <div className={styles.cardConteudo}>                 
                         <b>Periodo</b>
                         <p className={styles.informacoes}></p>
+                    </div>
+                    <div className={styles.cardConteudo}>                 
+                        <button onClick={(e) => adicionarTarefa(nomeTarefa,descricao)}>Adicionar</button>
                     </div>
                 </div>
 

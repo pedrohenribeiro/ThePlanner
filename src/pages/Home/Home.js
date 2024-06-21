@@ -2,6 +2,9 @@ import CardProjetos from "../../components/layout/Cards/CardsProjetos";
 import CardCadastrarTarefas from "../../components/layout/Cards/tarefas/CardCadastrarTarefas";
 
 function Home(){
+    async function adicionarTarefa(nomeTarefa, descricao){
+        console.log(nomeTarefa, descricao);
+    }
     return(
         <div className="conteudosPagina">
             <div className="conteudoPagina">
@@ -27,7 +30,9 @@ function Home(){
                 />
             </div>
             <div className="conteudoPagina">
-                <CardCadastrarTarefas/>
+                <CardCadastrarTarefas
+                    adicionarTarefa={adicionarTarefa}
+                />
             </div>
             <div className="conteudoPagina">
                
