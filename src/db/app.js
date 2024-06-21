@@ -32,13 +32,53 @@ const connection = mysql.createPool({
 module.exports = connection;
 
 app.post('/projetoAdicionar', async (req, res) => {
-    const newData = req.body;
+    const { titulo, descricao, dataInicial, dataFinal, participantes, tarefas } = req.body;
     try {
         const now = moment().format('YYYY-MM-DD HH:mm:ss');
-        newData.createdAt = now;
-        newData.updatedAt = now;
         
-        await connection.query('INSERT INTO projetos SET ?', newData);
+        const projeto = {
+            titulo,
+            descricao,
+            dataInicial,
+            dataFinal,
+            createdAt: now,
+            updatedAt: now
+        };
+        await connection.query('INSERT INTO Projetos SET ?', projeto);
+
+        for (const participante of participantes) {
+            const novoParticipante = {
+                nome: participante.nome,
+                funcao: participante.funcao,
+                createdAt: now,
+                updatedAt: now
+            };
+            await connection.query('INSERT INTO Participantes SET ?', novoParticipante);
+        
+        }
+
+        for (const tarefa of tarefas) {
+            const novaTarefa = {
+                titulo: tarefa.titulo,
+                estado: tarefa.estado,
+                tempoEstimado: tarefa.tempoEstimado,
+                dataPrevista: tarefa.dataPrevista,
+                projetoId: projeto.id,
+                createdAt: now,
+                updatedAt: now
+            };
+            await connection.query('INSERT INTO Tarefas SET ?', novaTarefa);
+
+            for (const responsavel of tarefa.responsaveis) {
+                const responsaveis ={
+                    tarefaId: novaTarefa.id,
+                    participanteId: responsavel.participanteId,
+                    createdAt: now,
+                    updatedAt: now
+                };
+                await connection.query('INSERT INTO Responsaveis SET ?', responsaveis);
+            }
+        }
         
         res.status(200).send('Projeto adicionado com sucesso');
     } catch (error) {
@@ -47,9 +87,7 @@ app.post('/projetoAdicionar', async (req, res) => {
     }
 });
 
-
-
 app.listen(8080, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8080");
+    console.log('Servidor rodando na porta 8080');
 });
 

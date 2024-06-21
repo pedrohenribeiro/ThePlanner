@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from "axios";
 
 function Projetos() {
     const [dadosProjeto, setDadosProjeto] = useState({
@@ -7,15 +8,17 @@ function Projetos() {
         dataInicial: '',
         dataFinal: '',
         participantes: [
-            { id: '', nome: '' }
+            { nome: '', funcao: '', id: '' }
         ],
         tarefas: [
             {
                 titulo: '',
                 estado: '',
-                responsaveis: '',
                 tempoEstimado: '',
-                dataPrevista: ''
+                dataPrevista: '',
+                responsaveis: [
+                    { participanteId: '' }
+                ]
             }
         ]
     });
@@ -76,6 +79,16 @@ function Projetos() {
         });
     };
 
+    async function cadastrarProjeto() {
+        console.log("Cadastrar Projeto");
+        try {
+            console.log("Adicionando Projeto", dadosProjeto);
+            await axios.post('http://localhost:8080/projetoAdicionar', dadosProjeto);
+        } catch (error) {
+            console.error("Erro ao adicionar projeto:", error);
+        }
+    };
+    
     return (
         <div>
             <input
@@ -122,6 +135,13 @@ function Projetos() {
                         value={participante.nome}
                         onChange={(e) => handleParticipanteChange(index, e)}
                         placeholder="Nome do Participante"
+                    />
+                    <input
+                        type="text"
+                        name="funcao"
+                        value={participante.funcao}
+                        onChange={(e) => handleParticipanteChange(index, e)}
+                        placeholder="Função do Participante"
                     />
                 </div>
             ))}
@@ -170,7 +190,7 @@ function Projetos() {
                     </select>
                 </div>
             ))}
-            <button onClick={(e) => { console.log(dadosProjeto) }}>Enviar</button>
+            <button onClick={(e) => { cadastrarProjeto()}}>Enviar</button>
         </div>
     );
 }

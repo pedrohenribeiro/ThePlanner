@@ -8,7 +8,7 @@ Tarefa
 npx sequelize-cli model:generate --name Tarefas --attributes titulo:string,estado:string,tempoEstimado:string,dataPrevista:date,projetoId:integer
 
 Responsável
-npx sequelize-cli model:generate --name Responsavel --attributes tarefaId:integer,participanteId:integer
+npx sequelize-cli model:generate --name Responsaveis --attributes tarefaId:integer,participanteId:integer
 
 
 Executar as migrations
