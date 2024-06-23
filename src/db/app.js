@@ -94,6 +94,87 @@ app.post('/projetoAdicionar', async (req, res) => {
     }
 });
 
+app.get('/projetos', async (req, res) => {
+    try {
+        // Consulta SQL para buscar todos os projetos com suas tarefas, participantes e responsáveis
+        const [rows] = await connection.query(`
+            SELECT 
+                p.id AS projetoId,
+                p.titulo AS projetoTitulo,
+                p.descricao AS projetoDescricao,
+                p.dataInicial,
+                p.dataFinal,
+                t.id AS tarefaId,
+                t.titulo AS tarefaTitulo,
+                t.estado AS tarefaEstado,
+                t.tempoEstimado AS tarefaTempoEstimado,
+                t.dataPrevista AS tarefaDataPrevista,
+                r.participanteId AS responsavelId,
+                pa.nome AS responsavelNome,
+                pa.funcao AS responsavelFuncao
+            FROM Projetos p
+            LEFT JOIN Tarefas t ON p.id = t.projetoId
+            LEFT JOIN Responsaveis r ON t.id = r.tarefaId
+            LEFT JOIN Participantes pa ON pa.id = r.participanteId
+            ORDER BY p.id, t.id, r.id
+        `);
+
+        // Processar os dados para agrupar conforme necessário
+        const projetosMap = new Map();
+
+        rows.forEach(row => {
+            if (!projetosMap.has(row.projetoId)) {
+                projetosMap.set(row.projetoId, {
+                    id: row.projetoId,
+                    titulo: row.projetoTitulo,
+                    descricao: row.projetoDescricao,
+                    dataInicial: row.dataInicial,
+                    dataFinal: row.dataFinal,
+                    tarefas: []
+                });
+            }
+
+            const projeto = projetosMap.get(row.projetoId);
+
+            if (row.tarefaId) {
+                let tarefa = projeto.tarefas.find(t => t.id === row.tarefaId);
+                if (!tarefa) {
+                    tarefa = {
+                        id: row.tarefaId,
+                        titulo: row.tarefaTitulo,
+                        estado: row.tarefaEstado,
+                        tempoEstimado: row.tarefaTempoEstimado,
+                        dataPrevista: row.tarefaDataPrevista,
+                        responsaveis: []
+                    };
+                    projeto.tarefas.push(tarefa);
+                }
+
+                if (row.responsavelId) {
+                    let responsavel = tarefa.responsaveis.find(r => r.id === row.responsavelId);
+                    if (!responsavel) {
+                        responsavel = {
+                            id: row.responsavelId,
+                        };
+                        tarefa.responsaveis.push(responsavel);
+                    }
+                }
+            }
+        });
+
+        // Converter o Map para um array
+        const projetos = Array.from(projetosMap.values());
+
+        res.json(projetos);
+    } catch (error) {
+        console.error('Erro ao buscar projetos:', error);
+        res.status(500).send('Erro ao buscar projetos');
+    }
+});
+
+
+
+
 app.listen(8080, () => {
     console.log('Servidor rodando na porta 8080');
 });
