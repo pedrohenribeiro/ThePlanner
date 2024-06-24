@@ -30,6 +30,13 @@ function BarraLateral(){
                         onClick={() => console.log("Clicado!")} 
                     />
                 </Link>
+
+                <Link to="/usuarios" className={styles.botao}>
+                    <IoHome
+                        size={35}
+                        onClick={() => console.log("Clicado!")} 
+                    />
+                </Link>
                 
             </div>
         </div>
