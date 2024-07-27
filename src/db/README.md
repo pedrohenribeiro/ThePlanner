@@ -10,6 +10,9 @@ npx sequelize-cli model:generate --name Tarefas --attributes titulo:string,estad
 Responsável
 npx sequelize-cli model:generate --name Responsaveis --attributes tarefaId:integer,participanteId:integer
 
+Usuario
+npx sequelize-cli model:generate --name Usuarios --attributes userId:integer,nomeUsuario:string
+
 
 Executar as migrations
 npx sequelize-cli db:migrate
