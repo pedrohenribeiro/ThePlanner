@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function Projetos() {
+
+    const [bancoUsuarios, setBancoUsuarios] = useState([]);
     const [dadosProjeto, setDadosProjeto] = useState({
         titulo: '',
         descricao: '',
@@ -22,6 +24,28 @@ function Projetos() {
             }
         ]
     });
+
+    useEffect(() => {
+        FetchUsuarios();
+    }, []);
+
+    async function FetchUsuarios() {
+        try {
+          const response = await axios.get('http://localhost:8080/usuarios');
+          const usuarios = response.data;
+  
+          const usuariosProcessados = usuarios.map(item => ({
+            value: item.nomeUsuario,
+            id: item.id,
+            label: `${item.nome}`,
+          }));
+  
+          setBancoUsuarios(usuariosProcessados);
+  
+        } catch (error) {
+          console.error('Erro ao buscar Usuarios:', error);
+        }
+      }
 
     const atualizarProjeto = (e) => {
         const { name, value } = e.target;

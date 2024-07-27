@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom'
 import styles from './BarraLateral.module.css'
 import { IoHome } from "react-icons/io5";
-import { FaClipboardCheck } from "react-icons/fa";
+import { FaClipboardCheck, FaUser, FaProjectDiagram   } from "react-icons/fa";
 
 function BarraLateral(){
     return (
@@ -25,14 +25,14 @@ function BarraLateral(){
                 </Link>
 
                 <Link to="/projetos" className={styles.botao}>
-                    <IoHome
+                    <FaProjectDiagram 
                         size={35}
                         onClick={() => console.log("Clicado!")} 
                     />
                 </Link>
 
                 <Link to="/usuarios" className={styles.botao}>
-                    <IoHome
+                    <FaUser 
                         size={35}
                         onClick={() => console.log("Clicado!")} 
                     />

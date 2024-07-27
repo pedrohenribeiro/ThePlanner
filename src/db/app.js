@@ -31,7 +31,35 @@ const connection = mysql.createPool({
 
 module.exports = connection;
 
+app.post('/usuarioAdicionar', async (req, res) => {
+    const novoUsuario = req.body;
 
+    try {    
+
+        const now = moment().format('YYYY-MM-DD HH:mm:ss');
+        novoUsuario.createdAt = now;
+        novoUsuario.updatedAt = now;
+
+        await connection.query('INSERT INTO usuarios SET ?', novoUsuario);  
+        res.status(200).send('Usuario adicionado com sucesso');
+
+    } catch (error) {
+        console.error('Erro ao adicionar o Usuario:', error);
+        res.status(500).send('Erro ao adicionar o Usuario');
+    }
+});
+
+app.get('/usuarios', async (req, res) => {
+    try {
+
+        const [rows, fields] = await connection.query('SELECT * from usuarios');
+        res.json(rows);
+
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        res.status(500).send('Erro ao buscar produtos');
+    }
+});
 
 app.post('/projetoAdicionar', async (req, res) => {
     const { titulo, descricao, dataInicial, dataFinal, participantes, tarefas } = req.body;

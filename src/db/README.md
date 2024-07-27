@@ -11,7 +11,7 @@ Responsável
 npx sequelize-cli model:generate --name Responsaveis --attributes tarefaId:integer,participanteId:integer
 
 Usuario
-npx sequelize-cli model:generate --name Usuarios --attributes userId:integer,nomeUsuario:string
+npx sequelize-cli model:generate --name Usuarios --attributes nomeUsuario:string
 
 
 Executar as migrations

@@ -4,11 +4,9 @@ import axios from "axios";
 function Usuario(){
 
     const [dadosUsuario, setDadosUsuario] = useState({
-        nome: '',
-        senha: '',
-
+        nomeUsuario: '',
     });
-
+    
     const atualizarUsuario = (e) => {
         const { name, value } = e.target;
         setDadosUsuario({
@@ -16,23 +14,26 @@ function Usuario(){
             [name]: value
         });
     };
+
+    async function cadastrarUsuario() {
+        console.log("Cadastrar Usuario");
+        try {
+            console.log("Adicionando Usuario", dadosUsuario);
+            await axios.post('http://localhost:8080/usuarioAdicionar', dadosUsuario);
+        } catch (error) {
+            console.error("Erro ao adicionar usuario:", error);
+        }
+    };
     return(
         <div>
             <input
                 type="text"
-                name="nome"
-                value={dadosUsuario.nome}
+                name="nomeUsuario"
+                value={dadosUsuario.nomeUsuario}
                 onChange={atualizarUsuario}
-                placeholder="Título do Usuario"
+                placeholder="nomeUsuario"
             />
-            <input
-                type="text"
-                name="senha"
-                value={dadosUsuario.senha}
-                onChange={atualizarUsuario}
-                placeholder="Descrição do Usuario"
-            />
-
+            <button onClick={(e) => { cadastrarUsuario() }}>Enviar</button>
         </div>
     )
 }
