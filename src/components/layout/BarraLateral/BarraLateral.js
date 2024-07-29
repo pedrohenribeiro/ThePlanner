@@ -16,13 +16,13 @@ function BarraLateral(){
                     />
                 </Link>
 
-                <Link to="/tarefas" className={styles.botao}>
+{/*                 <Link to="/tarefas" className={styles.botao}>
                     <FaClipboardCheck
                         size={35}
                         onClick={() => console.log("Clicado!")} 
                         title='Tarefas'
                     />
-                </Link>
+                </Link> */}
 
                 <Link to="/projetos" className={styles.botao}>
                     <FaProjectDiagram 
