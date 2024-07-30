@@ -1,5 +1,6 @@
 .navMenu {
-    background-color: #745ea8;
+  /*   background-color: #745ea8; */
+    background-color: #699cb9; /* personalizar cor */
     min-height: 80px;
     display: flex;
     align-items: center;

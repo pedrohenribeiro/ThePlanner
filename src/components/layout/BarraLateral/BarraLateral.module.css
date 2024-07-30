@@ -1,6 +1,7 @@
 .BarraLateral {
     z-index: 1;
-    background-color: #745ea8;
+/*     background-color: #745ea8; */
+    background-color: #699cb9; /* personalizar cor */
     height: 100vh;
     width: 80px;
     position: fixed;
